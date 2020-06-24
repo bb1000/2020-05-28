@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Part 1 - Exam BB1000 2020-05-28</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Exam BB1000 2020-05-28</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Solutions</a>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Part 1</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../part2/" class="nav-link">Part 2</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../part3/" class="nav-link">Part 3</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href=".." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../part2/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#part-1" class="nav-link">Part 1</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#1-word-count" class="nav-link">1. Word count</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#2-pirate-language-translator" class="nav-link">2. Pirate language translator</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="part-1">Part 1</h1>
+<h2 id="1-word-count">1. Word count</h2>
+<p>Write a function that counts words in text and returns a dictionary which maps the word to the count number (int) of that word</p>
+<ul>
+<li>It should convert words to lower case</li>
+<li>Words should not have newlines</li>
+<li>Words should not contain separation characters like ", . ? !"</li>
+</ul>
+<h3 id="suggested-solutions">Suggested solutions:</h3>
+<p>First we need to split the text into a list of words that we can loop over
+e.g.</p>
+<pre><code>&gt;&gt;&gt; text = 'She loves me, yeah yeah yeah!'
+&gt;&gt;&gt; text.split()
+['She', 'loves', 'me,', 'yeah', 'yeah', 'yeah!']
+&gt;&gt;&gt;
+</code></pre>
+
+<p>Within the loop we would have to remove non-letter characters and convert to
+lower case, e.g. with <code>strip</code> and <code>lower</code> string methods</p>
+<pre><code>&gt;&gt;&gt; 'She'.lower()
+'she'
+&gt;&gt;&gt; 'yeah!'.strip('!')
+'yeah'
+&gt;&gt;&gt;
+</code></pre>
+
+<pre><code>&gt;&gt;&gt; for w in text.split():
+...     word = w.strip(',').strip('!').lower()
+&gt;&gt;&gt;
+</code></pre>
+
+<p>and finally put those words in a dictionary. </p>
+<p>What we first need then is to start out with an empty dictionary</p>
+<pre><code>&gt;&gt;&gt; d = {}
+&gt;&gt;&gt;
+</code></pre>
+
+<p>and within the loop there are a couple of approaches to fill the dictionary
+with values. A first valid attempt
+is to check if a word is already in the dictionary and then increase the value
+by 1, otherwise if it is absent insert the new word with value 1</p>
+<pre><code>&gt;&gt;&gt; if word in d:
+...    d[word] += 1
+... else:
+...    d[word] = 1
+&gt;&gt;&gt;
+</code></pre>
+
+<p>an alternative is to use the <code>get</code> method of a dictionary. That returns a
+default value for a key if it does not exist, otherwise. So we could have get
+return a 0 for words that are not yet in the dictionary </p>
+<pre><code>&gt;&gt;&gt; d = {}
+&gt;&gt;&gt; for word in text.split():
+...     d[word] = d.get(word, 0) + 1
+&gt;&gt;&gt;
+</code></pre>
+
+<p>A third way is the collections module of the standard library
+which contains many useful tools. <code>defaultdict</code> is a class which is like a
+dictionary expects that it creates an entry when you reference something that
+is not there</p>
+<pre><code>&gt;&gt;&gt; import collections
+&gt;&gt;&gt; d = collections.defaultdict(int)
+&gt;&gt;&gt; d['new key']
+0
+&gt;&gt;&gt; d == {'new key': 0}
+True
+&gt;&gt;&gt;
+</code></pre>
+
+<p>A complete solution with the second version is</p>
+<pre><code>&gt;&gt;&gt; def word_count(text):
+...     &quot;&quot;&quot;
+...     Calculates words in text, return type: dict
+...     
+...     &gt;&gt;&gt; word_count('bye bye')
+...     {'bye': 2}
+...     &gt;&gt;&gt; word_count('She loves me yeah yeah yeah')
+...     {'she': 1, 'loves': 1, 'me': 1, 'yeah': 3}
+...     &quot;&quot;&quot;
+...     d = {}
+...     for w in text.split():
+...         word = w.strip(',').strip('!').strip('?').lower()
+...         d[word] = d.get(word, 0) + 1
+...     return d
+
+</code></pre>
+
+<p>Satisfying</p>
+<pre><code>&gt;&gt;&gt; word_count('bye bye') == {'bye': 2}
+True
+&gt;&gt;&gt; word_count('She loves me yeah yeah yeah')
+{'she': 1, 'loves': 1, 'me': 1, 'yeah': 3}
+&gt;&gt;&gt; word_count(&quot;What?&quot;)
+{'what': 1}
+&gt;&gt;&gt; word_count('''
+... A word,
+... if you please!
+... ''')
+{'a': 1, 'word': 1, 'if': 1, 'you': 1, 'please': 1}
+
+</code></pre>
+
+<h2 id="2-pirate-language-translator">2. Pirate language translator</h2>
+<p>Double any consonant and put an o in between</p>
+<pre><code>&gt;&gt;&gt; to_pirate('hello') # doctest: +SKIP
+hohelollolo
+</code></pre>
+
+<p>The output should preserve leading upper case of the characters in the beginning of the sentance. See the tests below</p>
+<h3 id="solution">Solution</h3>
+<p>We have to find a way of knowing when a character in a sequence is a consonant
+or not. The most obvious way is a list all known consonants and check if a
+character is member. That is perfectly valid. Here we get a shorter list of
+vowels to start with, and one can check if it is not one of those, but a list
+of non-consonants would have to be extended with spaces and other separation
+characters</p>
+<pre><code>&gt;&gt;&gt; VOWELS = 'eiyaou'
+&gt;&gt;&gt; def to_pirate(text):
+...     pirate = &quot;&quot;
+...     nonconsonants = VOWELS + ' .,!?'
+...     for c in text:
+...         pirate += c
+...         if c.lower() not in nonconsonants:
+...             pirate += 'o' + c.lower()
+...     return pirate
+
+</code></pre>
+
+<pre><code>&gt;&gt;&gt; assert to_pirate('hello') == 'hohelollolo'
+&gt;&gt;&gt; assert to_pirate('Hello there') == 'Hohelollolo tothoherore'
+
+</code></pre>
+
+<p>Even for a small function like this it is good practise to split up the logic into separate
+smaller functions if possible to get more readable code</p>
+<pre><code>&gt;&gt;&gt; VOWELS = 'eiyaou'
+
+&gt;&gt;&gt; def to_pirate(text):
+...     pirate = &quot;&quot;
+...     for c in text:
+...         pirate += c
+...         if is_consonant(c):
+...             pirate += 'o' + c.lower()
+...     return pirate
+
+&gt;&gt;&gt; def is_consonant(char):
+...     return char.lower() in 'bcdfghjklmnpqrstvwxz'
+
+&gt;&gt;&gt; to_pirate('Hello there')
+'Hohelollolo tothoherore'
+
+</code></pre>
+
+<pre><code>&gt;&gt;&gt; assert to_pirate('hello') == 'hohelollolo'
+&gt;&gt;&gt; assert to_pirate('Hello there') == 'Hohelollolo tothoherore'
+
+</code></pre>
+
+<p>Note: in English the letter <code>y</code> is sometimes considered a consonant, but that
+does not affect test tests here.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
